@@ -1,5 +1,30 @@
 // https://randomuser.me/api/?results=24
 
-fetch("https://randomuser.me/api/?results=24")
-  .then((res) => res.json())
-  .then((data) => console.log(data));
+let userData = [];
+
+const fetchUser = async () => {
+  await fetch("https://randomuser.me/api/?results=24")
+    .then((res) => res.json())
+    .then((data) => (userData = data.results));
+
+  // setTimeout(() => {
+  //   console.log(userData);
+  // }, 2000);
+  console.log(userData);
+};
+
+const userDisplay = async () => {
+  await fetchUser();
+
+  document.body.innerHTML = userData.map(
+    (user) =>
+    `
+    <div class="card">
+      <img src=${user.picture.large} alt="photo de ${user.name.last}"
+      <h3>${user.name.first}</h3>
+    </div>
+    `
+  ).join("");
+};
+
+userDisplay();
